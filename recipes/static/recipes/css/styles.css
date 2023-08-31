@@ -270,6 +270,27 @@ h5 {
     filter: brightness(.8);
 }
 
+/*pagination CSS*/
+
+.pagination-content {
+    display: flex;
+    flex-flow: row nowrap;
+    gap: 1rem 0.5rem;
+}
+.pagination .page-item {
+    background-color: var(--color-gray-3);
+    padding: 0.5rem 1rem ;
+}
+
+.pagination .page-link {
+    text-decoration: none;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+}
+
+.pagination .page-current {
+    background-color: var(--color-primary-dark);
+}
 /* Generics */
 
 .center {
@@ -283,3 +304,5 @@ h5 {
 .m-y {
     margin: var(--spacing-gutter-medium) 0;
 }
+
+
