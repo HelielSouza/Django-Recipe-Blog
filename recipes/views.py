@@ -18,6 +18,9 @@ def home(request):
         is_published=True
     ).order_by('-id')
 
+    # flash message
+    # messages.success(request, 'Bem vindo.')
+
     # try para verificar se foi 1, se nao for, forca a ser 1
     page_obj, pagination_range = make_pagination(request, recipes, PER_PAGE)
 

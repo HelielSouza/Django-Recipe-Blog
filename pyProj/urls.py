@@ -22,7 +22,8 @@ from django.urls import include, path
 urlpatterns = [
     path('admin/', admin.site.urls),
     # using file urls.py from the folder 'recipes'
-    path('', include('recipes.urls'))
+    path('', include('recipes.urls')),
+    path('authors/', include('authors.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
