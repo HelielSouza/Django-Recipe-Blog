@@ -30,8 +30,7 @@ class AuthorRegisterFormUnitTest(TestCase):
         ('password', (
             'Senha deve ter pelo menos um caracter maiúsculo, '
             'um caracter minúsculo e um número. A senha deve '
-            'possuir pelo menos 8 caracteres.'
-        )),
+            'possuir pelo menos 8 caracteres.')),
     ])
     def test_fields_help_text(self, field, needed):
         form = RegisterForm()
@@ -40,7 +39,7 @@ class AuthorRegisterFormUnitTest(TestCase):
 
 # Teste que verifica se os labels correspondem aos campos
     @parameterized.expand([
-        ('username', 'Nome de usuário'),
+        ('username', 'Nome do usuário'),
         ('first_name', 'Nome'),
         ('last_name', 'Sobrenome'),
         ('email', 'E-mail'),
@@ -57,7 +56,6 @@ class AuthorRegisterFormUnitTest(TestCase):
 
 class AuthorRegisterFormIntegrationTest(DjangoTestCase):
 
-    # Teste que verifica quando o campo está vazio
     def setUp(self, *args, **kwargs):
         self.form_data = {
             'username': 'user',
@@ -69,11 +67,20 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         }
         return super().setUp(*args, **kwargs)
 
+# Teste que verifica quando o campo está vazio
     @parameterized.expand([
-        ('username', 'Esse campo não pode estar vazio'),
+        ('first_name', 'Este campo não pode estar vazio'),
+        ('last_name', 'Este campo não pode estar vazio'),
+        ('username', 'Este campo não pode estar vazio'),
+        ('email', 'E-mail é obrigatório'),
+        ('username', 'Este campo não pode estar vazio'),
+        ('password', 'A senha não pode estar vazia'),
+        ('password2', 'A senha não pode estar vazia'),
+
     ])
     def test_fields_cannot_be_empty(self, field, msg):
         self.form_data[field] = ''
         url = reverse('authors:create')
         response = self.client.post(url, data=self.form_data, follow=True)
         self.assertIn(msg, response.content.decode('utf-8'))
+        self.assertIn(msg, response.context['form'].errors.get(field))

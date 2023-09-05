@@ -38,7 +38,41 @@ class RegisterForm(forms.ModelForm):
         add_placeholder(self.fields['last_name'], 'Digite seu sobrenome')
         add_placeholder(self.fields['email'], 'Digite seu e-mail')
 
-    # senha principal
+    # Primeiro nome
+    first_name = forms.CharField(
+        error_messages={
+            'required': 'Este campo não pode estar vazio'
+        },
+        label='Nome'
+    )
+
+    # Sobrenome
+    last_name = forms.CharField(
+        error_messages={'required': 'Este campo não pode estar vazio'},
+        label='Sobrenome'
+    )
+
+    # Nome do usuário
+    username = forms.CharField(
+        error_messages={
+            'required': 'Este campo não pode estar vazio'
+        },
+        label='Nome do usuário',
+        help_text='Obrigatório.'
+        ' 150 caracteres ou menos. '
+        'Letras, números e @/./+/-/_ apenas.'
+    )
+
+    # Email
+    email = forms.EmailField(
+        error_messages={
+            'required': 'E-mail é obrigatório'
+        },
+        label='E-mail',
+        help_text='O e-mail deve ser válido.',
+    )
+
+    # Senha principal
     password = forms.CharField(
         required=True,
         widget=forms.PasswordInput(attrs={
@@ -56,7 +90,7 @@ class RegisterForm(forms.ModelForm):
         validators=[strong_password]
     )
 
-    # senha confirmacao
+    # Senha confirmacao
     password2 = forms.CharField(
         required=True,
         widget=forms.PasswordInput(attrs={
@@ -77,20 +111,6 @@ class RegisterForm(forms.ModelForm):
             'email',
             'password',
         ]
-        labels = {
-            'first_name': 'Nome',
-            'username': 'Nome de usuário',
-            'last_name': 'Sobrenome',
-            'email': 'E-mail',
-        }
-        help_texts = {
-            'email': 'O e-mail deve ser válido.',
-        }
-        error_messages = {
-            'username': {
-                'required': 'Esse campo não pode estar vazio',
-            }
-        }
 
     # metodo para verificar se os campos de senhas sao iguais
     def clean(self):
