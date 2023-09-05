@@ -84,3 +84,74 @@ class AuthorRegisterFormIntegrationTest(DjangoTestCase):
         response = self.client.post(url, data=self.form_data, follow=True)
         self.assertIn(msg, response.content.decode('utf-8'))
         self.assertIn(msg, response.context['form'].errors.get(field))
+
+# Testa o tamanho mínimo do nome de usuário
+    def test_username_field_min_lenght_should_be_4(self):
+        self.form_data['username'] = 'jao'
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = ('O nome de usuário deve conter '
+               'no mínimo 4 caracteres')
+
+        self.assertIn(msg, response.content.decode('utf-8'))
+        self.assertIn(msg, response.context['form'].errors.get('username'))
+
+# Testa o tamanho máximo do nome de usuário
+    def test_username_field_max_length_should_be_150(self):
+        self.form_data['username'] = 'A' * 151
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = ('O nome de usuário deve conter '
+               'no máximo 150 caracteres')
+
+        self.assertIn(msg, response.context['form'].errors.get('username'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+# Testa se o inverso e o correto se a senha possui maisc, minsc e numeros
+    def test_password_field_have_lower_upper_case_letters_and_numbers(self):
+        self.form_data['password'] = 'abc123'
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = (
+            'A senha deve ter no mínimo uma letra maiúscula, '
+            'Uma letra minúscula e um número. A senha deve '
+            'possuir pelo menos 8 caracteres.'
+        )
+
+        self.assertIn(msg, response.context['form'].errors.get('password'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+        self.form_data['password'] = '@A123abc123'
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertNotIn(msg, response.context['form'].errors.get('password'))
+
+# Testa se as duas senhas sao iguais no inverso e no correto
+    def test_password_and_password_confirmation_are_equal(self):
+        self.form_data['password'] = '@A123abc123'
+        self.form_data['password2'] = '@A123abc1235'
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        msg = 'As senhas devem ser iguais'
+
+        self.assertIn(msg, response.context['form'].errors.get('password'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+        self.form_data['password'] = '@A123abc123'
+        self.form_data['password2'] = '@A123abc123'
+
+        url = reverse('authors:create')
+        response = self.client.post(url, data=self.form_data, follow=True)
+
+        self.assertNotIn(msg, response.content.decode('utf-8'))
+
+    def test_send_get_request_to_registration_create_view_returns_404(self):
+        url = reverse('authors:create')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 404)

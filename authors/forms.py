@@ -55,12 +55,17 @@ class RegisterForm(forms.ModelForm):
     # Nome do usuário
     username = forms.CharField(
         error_messages={
-            'required': 'Este campo não pode estar vazio'
+            'required': 'Este campo não pode estar vazio',
+            'min_length': ('O nome de usuário deve conter '
+                           'no mínimo 4 caracteres'),
+            'max_length': ('O nome de usuário deve conter '
+                           'no máximo 150 caracteres')
         },
         label='Nome do usuário',
-        help_text='Obrigatório.'
-        ' 150 caracteres ou menos. '
-        'Letras, números e @/./+/-/_ apenas.'
+        help_text='Obrigatório. '
+        '150 caracteres ou menos. '
+        'Letras, números e @/./+/-/_ apenas.',
+        min_length=4, max_length=150,
     )
 
     # Email
@@ -121,7 +126,7 @@ class RegisterForm(forms.ModelForm):
 
         if password != password2:
             password_confirmation_error = ValidationError(
-                'As senhas devem ser iguais ',
+                'As senhas devem ser iguais',
                 code='invalid'
             )
             raise ValidationError({
