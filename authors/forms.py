@@ -112,6 +112,7 @@ class RegisterForm(forms.ModelForm):
                 code='invalid',
                 params={'value': '"John Doe"'}
             )
+        return data
 
     # metodo para verificar se os campos de senhas sao iguais
     def clean(self):
