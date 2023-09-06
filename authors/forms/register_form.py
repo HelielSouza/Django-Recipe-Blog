@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from utils.django_forms import add_placeholder, strong_password
 
 
+# Classe de cadastro
 class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
