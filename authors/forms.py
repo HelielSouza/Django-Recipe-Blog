@@ -117,6 +117,18 @@ class RegisterForm(forms.ModelForm):
             'password',
         ]
 
+    # Funcao que levanta erro se for cadastrar com o mesmo email
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '')
+        exists = User.objects.filter(email=email).exists()
+
+        if exists:
+            raise ValidationError(
+                'Esse e-mail já está em uso', code='invalid',
+            )
+
+        return email
+
     # metodo para verificar se os campos de senhas sao iguais
     def clean(self):
         cleaned_data = super().clean()
