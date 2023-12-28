@@ -8,7 +8,7 @@
     {% include 'authors/partials/login_message.html' %}
     {% include 'global/partials/messages.html' %}
     <div class="authors-dashboard-container">
-      <h3>Your recipes</h3>
+      <h3>Suas receitas</h3>
 
       <ul>
         {% for recipe in recipes %}
@@ -24,10 +24,10 @@
               <button class="plaintext-button" type="submit">❌</button>
             </form>
           </li>
-        {% empty %}
-          <li>
-            <p>You do not have recipes, please create one.</p>
-          </li>
+          {% empty %}
+            <li>
+              <p>Você ainda não possui nenhuma receita, por favor, crie uma.</p>
+            </li>
         {% endfor %}
       </ul>
     </div>
