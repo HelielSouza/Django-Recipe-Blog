@@ -1,21 +1,36 @@
 from authors.forms.recipe_form import AuthorRecipeForm
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.http.response import Http404
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from recipes.models import Recipe
 
 
+@method_decorator(
+    login_required(login_url='authors:login', redirect_field_name='next'),
+    name='dispatch'
+)
 class DashboardRecipe(View):
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def setup(self, *args, **kwargs):
+        return super().setup(*args, **kwargs)
+
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
     # metodo para obter a receita pelo id
-    def get_recipe(self, id):
+    def get_recipe(self, id=None):
         # para inicializar
         recipe = None
 
         # caso tenha id
-        if id:
+        if id is not None:
             # recupera a receita filtrando por  id,
             # usuario logado e se nao esta publicado
             recipe = Recipe.objects.filter(
@@ -45,7 +60,7 @@ class DashboardRecipe(View):
 
     # metodo get para mostrar o formulario na tela ja existente
     # recebe a requisicao e o id da receita
-    def get(self, request, id):
+    def get(self, request, id=None):
         # recipe recebe o retorno da funcao acima, que obtem a receita
         recipe = self.get_recipe(id)
         # essa recipe é passada como instancia para ser gerado o form
@@ -54,7 +69,7 @@ class DashboardRecipe(View):
         # renderiza esse form no html
         return self.render_recipe(form)
 
-    def post(self, request, id):
+    def post(self, request, id=None):
         # recebe a receita chamando a funcao criado com o id
         recipe = self.get_recipe(id)
 
@@ -78,7 +93,11 @@ class DashboardRecipe(View):
             messages.success(request, 'Sua receita foi salva com sucesso!')
             # redireciona para a própria página
             return redirect(
-                reverse('authors:dashboard_recipe_edit', args=(id,))
+                reverse(
+                    'authors:dashboard_recipe_edit', args=(
+                        recipe.id,
+                    )
+                )
             )
 
         # retorna a renderizacao do html após o processo
