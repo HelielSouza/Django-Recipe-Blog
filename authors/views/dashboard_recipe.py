@@ -102,3 +102,15 @@ class DashboardRecipe(View):
 
         # retorna a renderizacao do html após o processo
         return self.render_recipe(form)
+
+
+@method_decorator(
+    login_required(login_url='authors:login', redirect_field_name='next'),
+    name='dispatch'
+)
+class DashboardRecipeDelete(DashboardRecipe):
+    def post(self, *args, **kwargs):
+        recipe = self.get_recipe(self.request.POST.get('id'))
+        recipe.delete()
+        messages.success(self.request, 'A receita foi apagada')
+        return redirect(reverse('authors:dashboard'))
