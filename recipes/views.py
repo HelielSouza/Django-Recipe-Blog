@@ -51,7 +51,7 @@ class RecipeListViewCategory(RecipeListViewBase):
         ctx = super().get_context_data(*args, **kwargs)
 
         ctx.update({
-            'title': f'{ctx.get("recipes")[0].category.name} - Category | '
+            'title': f'{ctx.get("recipes")[0].category.name} - Categoria | '
         })
 
         return ctx
