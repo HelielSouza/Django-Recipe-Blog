@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import mimetypes
 import os
 from pathlib import Path
 
@@ -43,10 +43,14 @@ INSTALLED_APPS = [
     # our created apps
     'recipes',
     'authors',
+    # django debug-toolbar
+    'debug_toolbar',
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -143,4 +147,18 @@ MESSAGE_TAGS = {
     constants.INFO: 'message-info',
     constants.SUCCESS: 'message-success',
     constants.WARNING: 'message-warning',
+}
+
+# debug tool bar
+INTERNAL_IPS = [
+    # ...
+    '127.0.0.1',
+    'http://localhost:8000'
+    # ...
+]
+
+mimetypes.add_type("application/javascript", ".js", True)
+
+DEBUG_TOOLBAR_CONFIG = {
+    "INTERCEPT_REDIRECTS": False,
 }

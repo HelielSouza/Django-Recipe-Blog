@@ -24,6 +24,7 @@ urlpatterns = [
     # using file urls.py from the folder 'recipes'
     path('', include('recipes.urls')),
     path('authors/', include('authors.urls')),
+    path('__debug__/', include('debug_toolbar.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
