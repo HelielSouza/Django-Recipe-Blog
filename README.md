@@ -1,9 +1,9 @@
-### Receitas.com
+# Receitas.com
 
 ## Português (pt-br)
 Este é um projeto de um blog de receitas desenvolvido em Django, onde os usuários podem se cadastrar, publicar suas próprias receitas, editar e visualizar as receitas de outros usuários.
 
-# Funcionalidades Principais:
+### Funcionalidades Principais:
 
 Cadastro de Usuário: Os usuários podem se cadastrar no site para criar e gerenciar suas próprias receitas.
 Publicação de Receitas: Os usuários podem publicar suas receitas, incluindo título, ingredientes, instruções e uma imagem ilustrativa.
@@ -32,7 +32,7 @@ Instalação e Execução:
 ## English (en-us)
 This is a recipe blog project developed in Django, where users can register, publish their own recipes, edit, and view recipes from other users.
 
-# Key Features:
+### Key Features:
 
 User Registration: Users can register on the site to create and manage their own recipes.
 Recipe Publication: Users can publish their recipes, including title, ingredients, instructions, and an illustrative image.
