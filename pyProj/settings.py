@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # our created apps
     'recipes',
     'authors',
+    'tag',
     # django debug-toolbar
     'debug_toolbar',
 
